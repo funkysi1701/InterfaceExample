@@ -1,26 +1,39 @@
 ﻿using System;
 using System.Xml;
 
-namespace Promotion.Core
+namespace InterfaceExample.Core
 {
     public class XML : IData
     {
-        public Blog LoadData(string Connectionstring)
+        public int FindData(string value, Blog blog)
         {
-            XmlDocument myXmlDocument = new XmlDocument();
-            myXmlDocument.Load(Connectionstring);
-            Blog blog = new Blog();
-            foreach (XmlNode RootNode in myXmlDocument.ChildNodes)
+            for (int i = 0; i < blog.Posts.Count; i++)
             {
-                if(RootNode.Name == "rss")
+                if (value == blog.Posts[i].Title)
                 {
-                    foreach(XmlNode node in RootNode.ChildNodes)
+                    return i;
+                }
+            }
+
+            return 0;
+        }
+
+        public Blog LoadData(string connectionstring)
+        {
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(connectionstring);
+            Blog blog = new Blog();
+            foreach (XmlNode rootNode in xmlDocument.ChildNodes)
+            {
+                if (rootNode.Name == "rss")
+                {
+                    foreach (XmlNode node in rootNode.ChildNodes)
                     {
-                        if(node.Name == "channel")
+                        if (node.Name == "channel")
                         {
                             foreach (XmlNode subnode in node.ChildNodes)
                             {
-                                if(subnode.Name == "item")
+                                if (subnode.Name == "item")
                                 {
                                     Post post = new Post();
                                     foreach (XmlNode item in subnode.ChildNodes)
@@ -29,15 +42,23 @@ namespace Promotion.Core
                                         {
                                             post.Title = item.InnerText;
                                         }
+
                                         if (item.Name == "link")
                                         {
                                             post.Url = item.InnerText;
                                         }
+
                                         if (item.Name == "pubDate")
                                         {
-                                            post.date = Convert.ToDateTime(item.InnerText);
+                                            post.Date = Convert.ToDateTime(item.InnerText);
+                                        }
+
+                                        if (item.Name == "category")
+                                        {
+                                            post.Tags.Add(item.InnerText);
                                         }
                                     }
+
                                     blog.Posts.Add(post);
                                 }
                             }
@@ -45,6 +66,7 @@ namespace Promotion.Core
                     }
                 }
             }
+
             return blog;
         }
     }

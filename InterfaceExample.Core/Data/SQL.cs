@@ -1,9 +1,15 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 
-namespace Promotion.Core
+namespace InterfaceExample.Core
 {
     public class SQL : IData
     {
+        public int FindData(string value, Blog blog)
+        {
+            throw new NotImplementedException();
+        }
+
         public Blog LoadData(string Connectionstring)
         {
             Blog blog = new Blog();

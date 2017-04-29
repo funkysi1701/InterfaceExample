@@ -1,4 +1,4 @@
-﻿namespace Promotion.Core
+﻿namespace InterfaceExample.Core
 {
     public interface ISocial
     {

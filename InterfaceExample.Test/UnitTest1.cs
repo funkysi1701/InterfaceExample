@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using Promotion.Core;
+using InterfaceExample.Core;
 using System.Configuration;
 
-namespace Promotion.Test
+namespace InterfaceExample.Test
 {
     [TestFixture]
     public class UnitTest1
